@@ -1,12 +1,13 @@
-{ stateVersion, user, ... }: {
+{ stateVersion, username, ... }: {
   imports = [
     ./home-packages.nix
     ./modules
   ];
 
   home = {
-    username = user;
-    homeDirectory = "/home/${user}";
-    stateVersion = stateVersion;
+    inherit username stateVersion;
+    homeDirectory = "/home/${username}";
   };
+
+  programs.home-manager.enable = true;
 }

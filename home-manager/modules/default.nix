@@ -6,5 +6,9 @@
     ./nvim.nix
     ./zellij.nix
     ./alacritty.nix
+    ./ranger.nix
+    ./zsh.nix
+    ./bat.nix
+    ./fonts.nix
   ];
 }

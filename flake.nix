@@ -13,26 +13,20 @@
   outputs = { self, nixpkgs, home-manager }: let
     system = "x86_64-linux";
     stateVersion = "25.11";
-    user = "tenk";
+    username = "tenk";
     hostname = "nixos";
   in {
     nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
       inherit system;
-      specialArgs = {
-        inherit stateVersion hostname user;
-      };
+      specialArgs = { inherit stateVersion hostname username; };
       modules = [
         ./hosts/${hostname}/configuration.nix
-      ];
-    };
-
-    homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = {
-        inherit stateVersion user;
-      };
-      modules = [
-        ./home-manager/home.nix
+        home-manager.nixosModules.home-manager {
+          home-manager = {
+            extraSpecialArgs = { inherit stateVersion username; };
+            users.${username} = ./home-manager/home.nix;
+          };
+        }
       ];
     };
   };
